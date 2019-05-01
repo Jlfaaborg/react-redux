@@ -1,32 +1,40 @@
-import React, { Component, FormEvent } from "react";
+import React, { Component } from "react";
 import { User } from "../../types";
 import store from "../../redux/store";
 import { ADD_USER } from "../../redux/action";
 
-class form extends Component {
-  constructor(props: Readonly<{}>) {
+class Form extends React.Component<{}, { userName?: any, password?: any }> {
+  constructor(props: any) {
     super(props)
-    this.state = { value: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.state = {
+      userName: props.userName,
+      password: props.password
+    }
   }
-  handleSubmit = (event: FormEvent) => {
+
+
+  handleSubmit = (event: any) => {
     event.preventDefault()
-    console.dir(event);
-    // store.dispatch({
-    //   type: ADD_USER,
-    //   user: { userName: event.target.value.userName, password: event.target.value.password }
-    // })
+    const user = {
+      userName: this.state.userName,
+      password: this.state.password
+    }
+
+    store.dispatch({
+      type: ADD_USER,
+      user: user
+    })
   };
 
-  handleChange = (event: any) => {
-    this.setState({ [event.target]: event.target.value });
+  handleChange = (event: { target: { name: any; value: any; }; }) => {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {
     return (
-      <form onSubmit={e => this.handleSubmit}>
+      <form>
         <label htmlFor="userName" />
         User Name
     <input type="text" name="userName" id="userName" onChange={this.handleChange} />
@@ -34,10 +42,10 @@ class form extends Component {
         <br />
         Password
     <input type="text" name="password" id="password" onChange={this.handleChange} />
-        <button type="submit">SUBMIT</button>
+        <button type="submit" onClick={this.handleSubmit}>SUBMIT</button>
       </form>
     )
   }
 }
 
-export default form
+export default Form

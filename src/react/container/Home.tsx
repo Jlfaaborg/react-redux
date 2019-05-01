@@ -2,13 +2,20 @@ import React from "react";
 import { connect } from 'react-redux'
 import { addUser } from "../../redux/action";
 import { User } from "../../types";
-import form from "../presentational/form";
+import Form from "../presentational/Form";
 
 const mapStateToProps = (state: any) => {
-  return { user: state.User }
+  return { userName: state[0].userName, password: state[0].password }
 }
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    submit: (user: User) => {
+      dispatch(addUser([user]))
+    }
+  }
+}
 
-const HomeLink = connect(mapStateToProps)(form);
+const HomeLink = connect(mapStateToProps, mapDispatchToProps)(Form);
 
 export default HomeLink
