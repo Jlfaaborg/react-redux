@@ -1,16 +1,14 @@
 import React from "react";
+import { connect } from 'react-redux'
 import { addUser } from "../../redux/action";
 import { User } from "../../types";
+import form from "../presentational/form";
 
 const mapStateToProps = (state: any) => {
-  return { user: state.User,
-  onSubmit:  };
-};
+  return { user: state.User }
+}
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    handleSubmit: (user: User) => {
-      dispatch(addUser(user));
-    }
-  };
-};
+
+const HomeLink = connect(mapStateToProps)(form);
+
+export default HomeLink
